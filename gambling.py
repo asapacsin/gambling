@@ -16,6 +16,8 @@ class gamblier:
             self.money -= take_money
     def kelly(self,win_ratio):
         return (win_ratio*2-1)/(win_ratio*2)
+    def half_kelly(self,win_ratio):
+        return (win_ratio*2-1)/(win_ratio*2) *0.5
     def if_loss(self):
         if self.money < self.start_moeny*0.3:
             return True
@@ -27,22 +29,29 @@ def main():
     win_ratio = 0.51
     gamblers = [gamblier(10000,win_ratio) for i in range(100)]
     play_times = 10000
+    #record loss rate of each 100 round
+    loss_rate = []
     for i in range(play_times):
         for gambler in gamblers:
             gambler.play()
-
+        if i%100 == 0:
+            loss = 0
+            for gambler in gamblers:
+                if gambler.if_loss():
+                    loss += 1
+            loss_rate.append(loss/100)
     #see what is the average get of the gam
     total = 0
     for gambler in gamblers:
         total += gambler.get_money()
-    print('the avg moeny:',total/100)
+    print('the avg money:',total/100)
 
     #see the largest get 
     max_money = 0
     for gambler in gamblers:
         if gambler.get_money() > max_money:
             max_money = gambler.get_money()
-    print('the max moeny:',max_money)
+    print('the max money:',max_money)
 
     #see how many gamblier loss in percentage
     loss = 0
@@ -54,7 +63,11 @@ def main():
     #sort gamblers by money
     gamblers.sort(key=lambda x:x.get_money())
     x = [i for i in range(100)]
-    y = [math.log(gambler.get_money()) for gambler in gamblers]
-    plt.plot(x,y)
+    y = [gambler.get_money() for gambler in gamblers]
+    #plot the distribution of the money as how many people locate in a certain range
+    plt.hist(y,bins=20)
+    plt.show()
+    #plot the loss rate
+    plt.plot(loss_rate)
     plt.show()
 main()
