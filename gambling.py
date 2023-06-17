@@ -8,7 +8,7 @@ class gamblier:
         self.money = moeny
         self.win_ratio = win_ratio
     def play(self):
-        play_ratio = self.kelly(self.win_ratio)
+        play_ratio = self.half_kelly(self.win_ratio)
         take_money = play_ratio*self.money
         if random.random() < self.win_ratio:
             self.money += take_money
@@ -28,7 +28,7 @@ def main():
     #init 100 gambliers
     win_ratio = 0.51
     gamblers = [gamblier(10000,win_ratio) for i in range(100)]
-    play_times = 10000
+    play_times = 20000
     #record loss rate of each 100 round
     loss_rate = []
     for i in range(play_times):
