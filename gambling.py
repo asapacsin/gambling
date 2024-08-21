@@ -7,8 +7,11 @@ class gamblier:
         self.start_moeny = moeny
         self.money = moeny
         self.win_ratio = win_ratio
-    def play(self):
-        play_ratio = self.half_kelly(self.win_ratio)
+    def play(self,type='kelly'):
+        if type == 'kelly':
+            play_ratio = self.kelly(self.win_ratio)
+        elif type == 'half_kelly':
+             play_ratio = self.half_kelly(self.win_ratio)
         take_money = play_ratio*self.money
         if random.random() < self.win_ratio:
             self.money += take_money
@@ -27,13 +30,14 @@ class gamblier:
 def main():
     #init 100 gambliers
     win_ratio = 0.51
-    gamblers = [gamblier(10000,win_ratio) for i in range(100)]
+    num_players = 100
+    gamblers = [gamblier(10000,win_ratio) for i in range(num_players)]
     play_times = 20000
     #record loss rate of each 100 round
     loss_rate = []
     for i in range(play_times):
         for gambler in gamblers:
-            gambler.play()
+            gambler.play(type='half_kelly')
         if i%100 == 0:
             loss = 0
             for gambler in gamblers:
@@ -58,7 +62,7 @@ def main():
     for gambler in gamblers:
         if gambler.if_loss():
             loss += 1
-    print('the loss percentage:',loss/100)
+    print(f'the loss percentage:{loss/num_players*100}%')
     #plot the money of the gamblier
     #sort gamblers by money
     gamblers.sort(key=lambda x:x.get_money())
@@ -66,6 +70,8 @@ def main():
     y = [gambler.get_money() for gambler in gamblers]
     #plot the distribution of the money as how many people locate in a certain range
     plt.hist(y,bins=20)
+    plt.xlabel("owned money")
+    plt.ylabel("percentage of people")
     plt.show()
     #plot the loss rate
     plt.plot(loss_rate)
