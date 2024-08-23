@@ -68,6 +68,7 @@ def main():
     gamblers.sort(key=lambda x:x.get_money())
     x = [i for i in range(100)]
     y = [gambler.get_money() for gambler in gamblers]
+    y_log = [math.log(gambler.get_money()) for gambler in gamblers]
     #plot the distribution of the money as how many people locate in a certain range
     plt.hist(y,bins=20)
     plt.xlabel("owned money")
@@ -76,4 +77,10 @@ def main():
     #plot the loss rate
     plt.plot(loss_rate)
     plt.show()
+    #plot the distribution by log
+    plt.hist(y_log,bins=20)
+    plt.xlabel("owned money")
+    plt.ylabel("percentage of people")
+    plt.show()
+
 main()
