@@ -36,8 +36,8 @@ class Gambler:
 
 def main():
     # Initialize parameters
-    win_ratio = 0.5
-    gain = 9
+    win_ratio = 0.67
+    gain = 2
     loss = 0.67
     num_players = 100
     max_rounds = 50
@@ -76,7 +76,7 @@ def main():
     plt.figure(figsize=(10, 5))
     plt.subplot(1, 2, 1)
     plt.plot(rounds, bankruptcy_percentages)
-    plt.xlabel('Number of Years')
+    plt.xlabel('Number of Rounds')
     plt.ylabel('Bankruptcy Percentage (%)')
     plt.title(f'{method.capitalize()} Bankruptcy Percentage Over Time')
     plt.grid(True)
@@ -87,9 +87,8 @@ def main():
     plt.plot(range(len(worst_money_history)), worst_money_history)
     # plt.yscale('log')
     plt.xlabel('Number of Rounds')
-    plt.ylabel('Money ($ - Log Scale)')
-    plt.yscale('log')
-    plt.title('Worst Performer Money Over Time (Log Scale)')
+    plt.ylabel('Money $')
+    plt.title('Worst Performer Money Over Time')
     plt.grid(True, which="both", ls="--")
     
     plt.tight_layout()
