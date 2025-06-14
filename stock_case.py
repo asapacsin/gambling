@@ -23,10 +23,10 @@ class Gambler:
         self.money_history.append(self.money)
     
     def half_kelly(self, win_ratio, gain, loss):
-        return (win_ratio * gain - (1-win_ratio) * loss) / (gain * loss) * 0.5
+        return min(win_ratio * gain - (1-win_ratio) * loss / (gain * loss) * 0.5,1)
     
     def kelly(self, win_ratio, gain, loss):
-        return (win_ratio * gain - (1-win_ratio) * loss) / (gain * loss)
+        return min((win_ratio * gain - (1-win_ratio) * loss) / (gain * loss),1)
     
     def is_bankrupt(self):
         return self.money < self.start_money * 0.3
@@ -36,11 +36,11 @@ class Gambler:
 
 def main():
     # Initialize parameters
-    win_ratio = 0.5
-    gain = 9
+    win_ratio = 0.67
+    gain = 2
     loss = 0.67
     num_players = 100
-    max_rounds = 50
+    max_rounds = 80
     record_interval = 1
     
     # Initialize gamblers
